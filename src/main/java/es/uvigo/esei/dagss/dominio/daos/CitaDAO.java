@@ -1,17 +1,22 @@
 /*
  Proyecto Java EE, DAGSS-2014
  */
-
 package es.uvigo.esei.dagss.dominio.daos;
 
 import es.uvigo.esei.dagss.dominio.entidades.Cita;
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-
+import javax.persistence.TypedQuery;
 
 @Stateless
 @LocalBean
-public class CitaDAO  extends GenericoDAO<Cita>{    
+public class CitaDAO extends GenericoDAO<Cita> {
 
-    // Completar aqui
+    public List<Cita> getCitasMedico(long idMedico) {
+        TypedQuery<Cita> q = em.createQuery("SELECT c FROM Cita AS c WHERE c.medico.id = :idMedico", Cita.class);
+        q.setParameter("idMedico", idMedico);
+
+        return q.getResultList();
+    }
 }

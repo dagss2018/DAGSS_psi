@@ -6,11 +6,13 @@ package es.uvigo.esei.dagss.controladores.medico;
 import es.uvigo.esei.dagss.controladores.autenticacion.AutenticacionControlador;
 import es.uvigo.esei.dagss.dominio.daos.CitaDAO;
 import es.uvigo.esei.dagss.dominio.daos.MedicoDAO;
+import es.uvigo.esei.dagss.dominio.entidades.Cita;
 import es.uvigo.esei.dagss.dominio.entidades.Medico;
 import es.uvigo.esei.dagss.dominio.entidades.TipoUsuario;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -36,6 +38,8 @@ public class MedicoControlador implements Serializable {
 
     @EJB
     private MedicoDAO medicoDAO;
+    @EJB
+    private CitaDAO citaDAO;
 
     /**
      * Creates a new instance of AdministradorControlador
@@ -111,8 +115,7 @@ public class MedicoControlador implements Serializable {
         return destino;
     }
 
-    //Acciones
-    public String doShowCita() {
-        return "detallesCita";
+    public List<Cita> recuperarCitasHoy() {
+        return  citaDAO.getCitasMedico(medicoActual.getId());  
     }
 }
