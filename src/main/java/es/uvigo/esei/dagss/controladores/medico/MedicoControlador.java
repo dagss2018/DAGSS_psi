@@ -7,11 +7,14 @@ import es.uvigo.esei.dagss.controladores.autenticacion.AutenticacionControlador;
 import es.uvigo.esei.dagss.dominio.daos.CitaDAO;
 import es.uvigo.esei.dagss.dominio.daos.MedicoDAO;
 import es.uvigo.esei.dagss.dominio.entidades.Cita;
+import es.uvigo.esei.dagss.dominio.entidades.EstadoCita;
 import es.uvigo.esei.dagss.dominio.entidades.Medico;
 import es.uvigo.esei.dagss.dominio.entidades.TipoUsuario;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -22,7 +25,6 @@ import javax.inject.Inject;
  *
  * @author ribadas
  */
-
 @Named(value = "medicoControlador")
 @SessionScoped
 public class MedicoControlador implements Serializable {
@@ -32,9 +34,11 @@ public class MedicoControlador implements Serializable {
     private String numeroColegiado;
     private String password;
 
+    private Cita citaActual;
+    private Date fechaActual = Calendar.getInstance().getTime();
+
     @Inject
     private AutenticacionControlador autenticacionControlador;
-    
 
     @EJB
     private MedicoDAO medicoDAO;
@@ -83,6 +87,10 @@ public class MedicoControlador implements Serializable {
         return (((dni == null) && (numeroColegiado == null)) || (password == null));
     }
 
+    public Date getFechaActual() {
+        return fechaActual;
+    }
+
     private Medico recuperarDatosMedico() {
         Medico medico = null;
         if (dni != null) {
@@ -116,6 +124,15 @@ public class MedicoControlador implements Serializable {
     }
 
     public List<Cita> recuperarCitasHoy() {
-        return  citaDAO.getCitasMedico(medicoActual.getId());  
+        return citaDAO.getCitasMedico(medicoActual.getId(), Calendar.getInstance().getTime());
+    }
+
+    public String atenderCita(Cita cita) {
+        this.citaActual = cita;
+        return "atender_cita";
+    }
+
+    public boolean citaAtendible(Cita cita) {
+        return cita.getEstado() == EstadoCita.PLANIFICADA;
     }
 }

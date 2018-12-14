@@ -1,80 +1,49 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
     <h:head>
         <title>Mi agenda</title>
+        <o:importConstants type="es.uvigo.esei.dagss.dominio.entidades.EstadoCita" />
     </h:head>
     <h:body>
         <h3> Mi agenda </h3>
+        <p:outputLabel 
+            rendered="#{medicoControlador.recuperarCitasHoy().size() == 0}"
+            value="No tienes citas para hoy "/>
 
-        <h:form>                     
-<!--            <p:panelGrid columns="3">
-                <f:facet name="header">
-                    <p:outputLabel value="Detalles del anuncio"/>
-                </f:facet>
-
-                <p:outputLabel value="Autor:"/>
-                <p:outputLabel value="#{anuncioControlador.anuncioActual.autor.nick}"/>
-
-                <p:outputLabel value="Fecha:"/>
-                <p:outputLabel value="#{anuncioControlador.anuncioActual.fecha}">
-                    <f:convertDateTime pattern="dd/MM/yyyy, hh:mm"/>
-                </p:outputLabel>
-
-                <p:outputLabel value="Título:"/>
-                <p:outputLabel value="#{anuncioControlador.anuncioActual.titulo}"/>
-
-                <p:outputLabel value="Detalle:"/>
-                <p:inputTextarea value="#{anuncioControlador.anuncioActual.detalle}"
-                                 rows="6" cols="25" readonly="true"/>
-            </p:panelGrid>-->
-
-
-            <p:dataTable id="tablaComentarios"
+        <h:form
+            rendered="#{medicoControlador.recuperarCitasHoy().size() > 0}">                     
+            <p:dataTable id="tablaCitas"
                          value="#{medicoControlador.recuperarCitasHoy()}"
                          var="cita">
                 <f:facet name="header">
-                    <p:outputLabel value="Comentarios del anuncio"/>
+                    <p:outputLabel value="Citas para "/>
+                    <p:outputLabel value="#{medicoControlador.fechaActual}">
+                        <f:convertDateTime locale="es_ES" pattern="dd/MM"/>
+                    </p:outputLabel>
                 </f:facet>
 
-                <p:column headerText="Autor">
-                    <p:outputLabel value="#{cita.estado}"/>                    
-                </p:column>
-                <p:column headerText="Comentario">
-                    <p:outputLabel value="#{cita.paciente}"/>
-                </p:column>
-                <p:column headerText="Fecha">
+                <p:column headerText="Hora">
                     <p:outputLabel value="#{cita.hora}">
                         <f:convertDateTime pattern="hh:mm"/>
                     </p:outputLabel>
                 </p:column>
+                <p:column headerText="Paciente">
+                    <p:outputLabel value="#{cita.paciente.nombre} #{cita.paciente.apellidos}"/>
+                </p:column>
+                <p:column headerText="Estado">
+                    <p:outputLabel value="#{cita.estado}"/>
+                </p:column>
+
                 <p:column>
-                    
-<!--                    
-                    <p:commandButton id="botonEliminar"
-                                     value="Eliminar"
-                                     rendered="#{comentario.autor.id == nickControlador.nickActual.id}"
-                                     actionListener="#{anuncioControlador.eventoEliminarComentario(comentario)}"
-                                     process="@this"
-                                     update="tablaComentarios"/>
-                                     -->
+                    <h:commandButton id="botonAtenderCita" 
+                                     value="Atender cita"
+                                     rendered="#{cita.estado == EstadoCita.PLANIFICADA}"
+                                     action="#{medicoControlador.atenderCita(cita)}"/>
                 </p:column>                
             </p:dataTable>
-
-<!--            <p:panelGrid columns="4" styleClass="ui-noborder">
-                <p:outputLabel value="Nuevo Comentario"/>
-                <p:inputText id="textoComentario" value="#{anuncioControlador.textoComentario}"/>
-                <p:outputLabel  value="(de '#{nickControlador.nickActual.nick}')"/>
-                <p:commandButton id="botonComentario" value="Añadir comentario"
-                                 actionListener="#{anuncioControlador.eventoAnadirComentario()}"
-                                 process="@this textoComentario"
-                                 update="tablaComentarios"
-                                 />                             
-            </p:panelGrid>
-
-            <p:commandButton value="Volver" ajax="false" action="listado_anuncios?facesRedirect=true"/>
-            -->
         </h:form>
     </h:body>
 </html>
