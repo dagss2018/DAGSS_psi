@@ -4,7 +4,6 @@
 package es.uvigo.esei.dagss.dominio.daos;
 
 import es.uvigo.esei.dagss.dominio.entidades.Cita;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.LocalBean;
@@ -28,6 +27,5 @@ public class CitaDAO extends GenericoDAO<Cita> {
         q.setParameter("fecha", dia);
 
         return q.getResultList();
-
     }
 }
