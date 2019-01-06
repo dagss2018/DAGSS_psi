@@ -10,14 +10,20 @@
         <h3> Atender cita </h3>
 
         <h:form>                     
-            <h:panelGrid columns="3">
+            <h:panelGrid columns="2">
                 <h:outputLabel value="Paciente: "/>
                 <h:outputText id ="autor" value="#{medicoControlador.citaActual.paciente.nombre} #{medicoControlador.citaActual.paciente.apellidos}"/>
-                <h:message for="autor"/>
             </h:panelGrid>
 
+            <br/>
             <h:commandButton immediate="true" value="Ver preescripciones" 
                              action="#{medicoControlador.verPrescripciones()}" />
+            <br/>
+            <br/>
+            <h:commandButton immediate="true" value="Finalizar cita" 
+                             action="#{medicoControlador.finalizarCita()}" />
+            <h:commandButton immediate="true" value="Marcar como ausente" 
+                             action="#{medicoControlador.marcarComoAusente()}" />
         </h:form>
     </h:body>
 </html>

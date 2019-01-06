@@ -1,0 +1,50 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+    <h:head>
+        <title>Mi agenda</title>
+        <o:importConstants type="es.uvigo.esei.dagss.dominio.entidades.EstadoCita" />
+    </h:head>
+    <h:body>
+        <h3> Mi agenda </h3>
+        <p:outputLabel 
+            rendered="#{medicoControlador.recuperarCitasHoy().size() == 0}"
+            value="No tienes citas para hoy "/>
+
+        <h:form
+            rendered="#{medicoControlador.recuperarCitasHoy().size() > 0}">                     
+            <p:dataTable id="tablaCitas"
+                         value="#{medicoControlador.recuperarCitasHoy()}"
+                         var="cita">
+                <f:facet name="header">
+                    <p:outputLabel value="Citas para "/>
+                    <p:outputLabel value="#{medicoControlador.fechaActual}">
+                        <f:convertDateTime locale="es_ES" pattern="dd/MM"/>
+                    </p:outputLabel>
+                </f:facet>
+
+                <p:column headerText="Hora">
+                    <p:outputLabel value="#{cita.hora}">
+                        <f:convertDateTime pattern="hh:mm"/>
+                    </p:outputLabel>
+                </p:column>
+                <p:column headerText="Paciente">
+                    <p:outputLabel value="#{cita.paciente.nombre} #{cita.paciente.apellidos}"/>
+                </p:column>
+                <p:column headerText="Estado">
+                    <p:outputLabel value="#{cita.estado}"/>
+                </p:column>
+
+                <p:column>
+                    <h:commandButton id="botonAtenderCita" 
+                                     value="Atender cita"
+                                     rendered="#{cita.estado == EstadoCita.PLANIFICADA}"
+                                     action="#{medicoControlador.atenderCita(cita)}"/>
+                </p:column>                
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>
+
