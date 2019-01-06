@@ -43,6 +43,12 @@
                         <f:convertDateTime locale="es_ES" pattern="dd/MM/yyyy"/>
                     </p:outputLabel>
                 </p:column>
+                
+                 <p:column>
+                    <h:commandButton id="botonEliminarPrescripcion" 
+                                     value="Eliminar"
+                                     action="#{medicoControlador.eliminarPrescripcion(prescripcion)}"/>
+                </p:column>  
             </p:dataTable>
         </h:form>
     </h:body>

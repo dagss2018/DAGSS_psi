@@ -152,4 +152,8 @@ public class MedicoControlador implements Serializable {
     public boolean citaAtendible(Cita cita) {
         return cita.getEstado() == EstadoCita.PLANIFICADA;
     }
+
+    public void eliminarPrescripcion(Prescripcion prescripcion) {
+        prescripcionDAO.eliminar(prescripcion);
+    }
 }
