@@ -43,24 +43,6 @@
                         <f:convertDateTime locale="es_ES" pattern="dd/MM/yyyy"/>
                     </p:outputLabel>
                 </p:column>
-                
-                
-
-<!--                <p:column headerText="Hora">
-                    <p:outputLabel value="#{prescripcion.indicaciones}">
-                        <f:convertDateTime pattern="hh:mm"/>
-                    </p:outputLabel>
-                </p:column>-->
-<!--                <p:column headerText="Estado">
-                    <p:outputLabel value="#{cita.estado}"/>
-                </p:column>
-
-                <p:column>
-                    <h:commandButton id="botonAtenderCita" 
-                                     value="Atender cita"
-                                     rendered="#{cita.estado == EstadoCita.PLANIFICADA}"
-                                     action="#{medicoControlador.atenderCita(cita)}"/>
-                </p:column>                -->
             </p:dataTable>
         </h:form>
     </h:body>
