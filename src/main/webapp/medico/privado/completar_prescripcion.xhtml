@@ -10,43 +10,26 @@
         <h3> Nueva prescripcion </h3>
         <h:form>
             <h:panelGrid columns="1">
-                <h:panelGrid columns="4">
-                    <h:outputLabel value="Búsqueda:"/>
-                    <h:inputText value="#{medicoControlador.textoBusqueda}"/>
-                    <h:commandButton value="Buscar" action="#{medicoControlador.doBuscarMedicamento()}"/>
+                <h:panelGrid columns="3">
+                    <h:outputLabel value="Dosis: " for="dosis"/>
+                    <h:inputText id="dosis" value="#{medicoControlador.nuevaPrescripcion.dosis}" required="true"/>
+                    <h:message for="dosis"/>
+                    
+                    <h:outputLabel value="Indicaciones" for="detalle"/>
+                    <h:inputTextarea id="detalle" value="#{medicoControlador.nuevaPrescripcion.indicaciones}" 
+                                     rows="6" cols="25" required="true"/>
+                    <h:message for="detalle"/>
+
+                    <h:outputLabel value="Fecha fin:" for="fechaFin"/>
+                    <h:inputText id ="fechaFin" value="#{medicoControlador.nuevaPrescripcion.fechaFin}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:inputText>
+                    <h:message for="fechaFin"/>
+
                 </h:panelGrid>
             </h:panelGrid>
 
-
-
-            <p:dataTable id="tablaCitas"
-                         value="#{medicoControlador.medicamentosEncontrados}"
-                         var="medicamento"
-                         rendered = "#{medicoControlador.medicamentosEncontrados > 0}">
-                <p:column headerText="Nombre">
-                    <p:outputLabel value="#{medicamento.nombre}"/>
-                </p:column>
-                <p:column headerText="Fabricante">
-                    <p:outputLabel value="#{medicamento.fabricante}"/>
-                </p:column>
-                <p:column headerText="Familia">
-                    <p:outputLabel value="#{medicamento.familia}"/>
-                </p:column>
-                <p:column headerText="Principio activo">
-                    <p:outputLabel value="#{medicamento.principioActivo}"/>
-                </p:column>
-
-                <p:column>
-                    <h:commandButton id="botonSeleccionarMedicamento" 
-                                     value="Seleccionar"
-                                     action="#{medicoControlador.seleccionarMedicamento(medicamento)}"/>
-                </p:column>                
-            </p:dataTable>
-
-
-
-
-            <h:commandButton value="Volver" action="ver_prescripciones"/>
+            <h:commandButton value="Guardar" action="#{medicoControlador.guardarPrescripcion()}"/>
 
         </h:form>
 
