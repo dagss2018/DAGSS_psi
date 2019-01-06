@@ -156,4 +156,27 @@ public class MedicoControlador implements Serializable {
     public void eliminarPrescripcion(Prescripcion prescripcion) {
         prescripcionDAO.eliminar(prescripcion);
     }
+
+    public String finalizarCita() {
+        this.citaActual.setEstado(EstadoCita.COMPLETADA);
+        this.citaDAO.actualizar(citaActual);
+        this.citaActual = null;
+        return "ver_agenda";
+    }
+
+    public String marcarComoAusente() {
+        this.citaActual.setEstado(EstadoCita.AUSENTE);
+        this.citaDAO.actualizar(citaActual);
+        this.citaActual = null;
+        return "ver_agenda";
+    }
+
+    public String volverInicio() {
+        return "privado/index";
+    }
+
+    public String guardarNuevoPerfil() {
+        medicoDAO.actualizar(medicoActual);
+        return "mis_datos";
+    }
 }
