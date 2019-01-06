@@ -11,28 +11,13 @@
 
         <h:form>                     
             <h:panelGrid columns="3">
-                <h:outputLabel value="Paciente"/>
-                <h:outputText id ="autor" value="#{anuncioControlador.anuncioActual.autor.nick}"/>
+                <h:outputLabel value="Paciente: "/>
+                <h:outputText id ="autor" value="#{medicoControlador.citaActual.paciente.nombre} #{medicoControlador.citaActual.paciente.apellidos}"/>
                 <h:message for="autor"/>
-
-                <h:outputLabel value="Fecha:"/>
-                <h:outputText id ="fecha" value="#{anuncioControlador.anuncioActual.fecha}">
-                    <f:convertDateTime pattern="dd/MM/yyyy, hh:mm"/>
-                </h:outputText>
-                <h:message for="fecha"/>
-
-                <h:outputLabel value="Título:" for="titulo"/>
-                <h:inputText id="titulo" value="#{anuncioControlador.anuncioActual.titulo}" required="true"/>
-                <h:message for="titulo"/>
-
-                <h:outputLabel value="Detalle:" for="detalle"/>
-                <h:inputTextarea id="detalle" value="#{anuncioControlador.anuncioActual.detalle}" 
-                                 rows="6" cols="25" required="true"/>
-                <h:message for="detalle"/>
             </h:panelGrid>
 
-            <h:commandButton immediate="true" value="Cancelar" action="#{anuncioControlador.doCancelarNuevoAnuncio()}" />
-            <h:commandButton  value="Guardar" action="#{anuncioControlador.doGuardarNuevoAnuncio()}" />
+            <h:commandButton immediate="true" value="Ver preescripciones" 
+                             action="#{medicoControlador.verPrescripciones()}" />
         </h:form>
     </h:body>
 </html>

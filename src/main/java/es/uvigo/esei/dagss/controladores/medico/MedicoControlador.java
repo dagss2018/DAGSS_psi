@@ -6,9 +6,12 @@ package es.uvigo.esei.dagss.controladores.medico;
 import es.uvigo.esei.dagss.controladores.autenticacion.AutenticacionControlador;
 import es.uvigo.esei.dagss.dominio.daos.CitaDAO;
 import es.uvigo.esei.dagss.dominio.daos.MedicoDAO;
+import es.uvigo.esei.dagss.dominio.daos.PrescripcionDAO;
 import es.uvigo.esei.dagss.dominio.entidades.Cita;
 import es.uvigo.esei.dagss.dominio.entidades.EstadoCita;
 import es.uvigo.esei.dagss.dominio.entidades.Medico;
+import es.uvigo.esei.dagss.dominio.entidades.Paciente;
+import es.uvigo.esei.dagss.dominio.entidades.Prescripcion;
 import es.uvigo.esei.dagss.dominio.entidades.TipoUsuario;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -44,6 +47,8 @@ public class MedicoControlador implements Serializable {
     private MedicoDAO medicoDAO;
     @EJB
     private CitaDAO citaDAO;
+    @EJB
+    private PrescripcionDAO prescripcionDAO;
 
     /**
      * Creates a new instance of AdministradorControlador
@@ -91,6 +96,10 @@ public class MedicoControlador implements Serializable {
         return fechaActual;
     }
 
+    public Cita getCitaActual() {
+        return citaActual;
+    }
+
     private Medico recuperarDatosMedico() {
         Medico medico = null;
         if (dni != null) {
@@ -127,9 +136,17 @@ public class MedicoControlador implements Serializable {
         return citaDAO.getCitasMedico(medicoActual.getId(), Calendar.getInstance().getTime());
     }
 
+    public List<Prescripcion> recuperarPrescripcionesEnVigor() {
+        return prescripcionDAO.getPrescioncionesEnVigor(citaActual.getPaciente().getId(), Calendar.getInstance().getTime());
+    }
+
     public String atenderCita(Cita cita) {
         this.citaActual = cita;
         return "atender_cita";
+    }
+
+    public String verPrescripciones() {
+        return "ver_prescripciones";
     }
 
     public boolean citaAtendible(Cita cita) {
