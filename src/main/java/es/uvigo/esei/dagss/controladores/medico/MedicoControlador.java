@@ -205,21 +205,17 @@ public class MedicoControlador implements Serializable {
     }
 
     public String volverInicio() {
-        return "privado/index";
+        return "index";
     }
 
     public String guardarNuevoPerfil() {
         medicoDAO.actualizar(medicoActual);
         return "mis_datos";
-    }
-
-    public String goNuevaPrescripcion() {
-        return "nueva_prescripcion";
-    }
 
     public String doBuscarMedicamento() {
 // TODO arreglar texto busqueda
-        String textoBusqueda = "ba";
+
+        System.out.println(textoBusqueda + "\n\n");
         this.medicamentosEncontrados = medicamentoDAO.bucarMedicamentos(textoBusqueda);
         return "nueva_prescripcion";
     }
