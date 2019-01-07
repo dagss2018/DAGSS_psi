@@ -3,6 +3,7 @@
  */
 package es.uvigo.esei.dagss.controladores.medico;
 
+import es.uvigo.esei.dagss.dominio.prescripcionfacade.PrescripcionFacade;
 import es.uvigo.esei.dagss.controladores.autenticacion.AutenticacionControlador;
 import es.uvigo.esei.dagss.dominio.daos.CitaDAO;
 import es.uvigo.esei.dagss.dominio.daos.MedicamentoDAO;
@@ -12,13 +13,11 @@ import es.uvigo.esei.dagss.dominio.entidades.Cita;
 import es.uvigo.esei.dagss.dominio.entidades.EstadoCita;
 import es.uvigo.esei.dagss.dominio.entidades.Medicamento;
 import es.uvigo.esei.dagss.dominio.entidades.Medico;
-import es.uvigo.esei.dagss.dominio.entidades.Paciente;
 import es.uvigo.esei.dagss.dominio.entidades.Prescripcion;
 import es.uvigo.esei.dagss.dominio.entidades.TipoUsuario;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -42,6 +41,9 @@ public class MedicoControlador implements Serializable {
     private String textoBusqueda;
 
     private Cita citaActual;
+    private List<Medicamento> medicamentosEncontrados;
+    private Prescripcion nuevaPrescripcion;
+
     private Date fechaActual = Calendar.getInstance().getTime();
 
     @Inject
@@ -55,9 +57,6 @@ public class MedicoControlador implements Serializable {
     private PrescripcionDAO prescripcionDAO;
     @EJB
     private MedicamentoDAO medicamentoDAO;
-    private List<Medicamento> medicamentosEncontrados;
-    private Medicamento medicamentoSeleccionado;
-    private Prescripcion nuevaPrescripcion;
 
     /**
      * Creates a new instance of AdministradorControlador
@@ -140,10 +139,6 @@ public class MedicoControlador implements Serializable {
         return medico;
     }
 
-    public Medicamento getMedicamentoSeleccionado() {
-        return medicamentoSeleccionado;
-    }
-
     public String doLogin() {
         String destino = null;
         if (parametrosAccesoInvalidos()) {
@@ -205,7 +200,6 @@ public class MedicoControlador implements Serializable {
         return "mis_datos";
     }
 
-  
     public String doBuscarMedicamento() {
         System.out.println(textoBusqueda + "\n\n");
         this.medicamentosEncontrados = medicamentoDAO.bucarMedicamentos(textoBusqueda);
@@ -213,17 +207,19 @@ public class MedicoControlador implements Serializable {
     }
 
     public String seleccionarMedicamento(Medicamento medicamento) {
-        this.medicamentoSeleccionado = medicamento;
+        this.nuevaPrescripcion = new Prescripcion();
+        this.nuevaPrescripcion.setMedicamento(medicamento);
+        this.nuevaPrescripcion.setMedico(medicoActual);
+        this.nuevaPrescripcion.setFechaInicio(fechaActual);
+        //TODO añadir paciente
+//        this.nuevaPrescripcion.setPaciente(paciente);
+
         return "completar_prescripcion";
     }
 
     public String guardarPrescripcion() {
-        this.nuevaPrescripcion.setFechaInicio(fechaActual);
-        
-       
-
-        this.prescripcionDAO.crear(nuevaPrescripcion);
-        //TODO crear plan de recetas
+        PrescripcionFacade pf = new PrescripcionFacade();
+        pf.planificarRecetas(nuevaPrescripcion);
         return "ver_prescripciones";
     }
 }
