@@ -178,10 +178,6 @@ public class MedicoControlador implements Serializable {
         return "atender_cita";
     }
 
-    public String verPrescripciones() {
-        return "ver_prescripciones";
-    }
-
     public boolean citaAtendible(Cita cita) {
         return cita.getEstado() == EstadoCita.PLANIFICADA;
     }
@@ -202,10 +198,6 @@ public class MedicoControlador implements Serializable {
         this.citaDAO.actualizar(citaActual);
         this.citaActual = null;
         return "ver_agenda";
-    }
-
-    public String volverInicio() {
-        return "index";
     }
 
     public String guardarNuevoPerfil() {
@@ -232,6 +224,6 @@ public class MedicoControlador implements Serializable {
 
         this.prescripcionDAO.crear(nuevaPrescripcion);
         //TODO crear plan de recetas
-        return verPrescripciones();
+        return "ver_prescripciones";
     }
 }
