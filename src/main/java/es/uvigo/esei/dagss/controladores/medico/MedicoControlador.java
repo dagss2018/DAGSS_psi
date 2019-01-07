@@ -211,10 +211,10 @@ public class MedicoControlador implements Serializable {
     public String guardarNuevoPerfil() {
         medicoDAO.actualizar(medicoActual);
         return "mis_datos";
+    }
 
+  
     public String doBuscarMedicamento() {
-// TODO arreglar texto busqueda
-
         System.out.println(textoBusqueda + "\n\n");
         this.medicamentosEncontrados = medicamentoDAO.bucarMedicamentos(textoBusqueda);
         return "nueva_prescripcion";
