@@ -26,11 +26,8 @@ public class PlanificadorFran implements PlanificadorRecetas {
         //Mejor la aproximacion por defecto debido a perdidas o otros errores
         int diasReceta = prescripcion.getMedicamento().getNumeroDosis() / prescripcion.getDosis();
         int dias = (int) ((prescripcion.getFechaFin().getTime() - prescripcion.getFechaInicio().getTime()) / 86400000);
-        System.out.println(dias);
-        
-        
+
         for (int i = 0; i <= dias; i += diasReceta) {
-            System.out.println(i);
             Receta receta = new Receta();
             receta.setCantidad(1);
             receta.setEstado(EstadoReceta.GENERADA);

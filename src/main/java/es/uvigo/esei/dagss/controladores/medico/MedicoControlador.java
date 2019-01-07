@@ -34,6 +34,9 @@ import javax.inject.Inject;
 @SessionScoped
 public class MedicoControlador implements Serializable {
 
+    @EJB
+    private PrescripcionFacade prescripcionFacade;
+
     private Medico medicoActual;
     private String dni;
     private String numeroColegiado;
@@ -211,15 +214,12 @@ public class MedicoControlador implements Serializable {
         this.nuevaPrescripcion.setMedicamento(medicamento);
         this.nuevaPrescripcion.setMedico(medicoActual);
         this.nuevaPrescripcion.setFechaInicio(fechaActual);
-        //TODO añadir paciente
-//        this.nuevaPrescripcion.setPaciente(paciente);
-
+        this.nuevaPrescripcion.setPaciente(citaActual.getPaciente());
         return "completar_prescripcion";
     }
 
     public String guardarPrescripcion() {
-        PrescripcionFacade pf = new PrescripcionFacade();
-        pf.planificarRecetas(nuevaPrescripcion);
+        prescripcionFacade.planificarRecetas(nuevaPrescripcion);
         return "ver_prescripciones";
     }
 }
